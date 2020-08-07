@@ -18,5 +18,8 @@
   "homepage": "https://github.com/victorren7/Ecommerce#readme",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5"
   }
 }
