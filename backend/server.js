@@ -3,7 +3,7 @@ import data from './data';
 
 const app = express();
 
-app.get('/api/products', (req, res) => {
+app.get("/api/products", (req, res) => {
   res.send(data.products);
 });
 
