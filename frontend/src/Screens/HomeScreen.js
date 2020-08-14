@@ -1,43 +1,47 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from'react';
 import { Link } from 'react-router-dom';
+import { map } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { listProducts } from '../actions/productActions';
 import styled from 'styled-components';
-import axios from 'axios';
 
 function HomeScreen (props) {
 
-  const [products, setProducts] = useState([]);
+  const productList = useSelector(state => state.productList);
+  const{products, loading, error } = productList;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async() => {
-      const {data} = await axios.get("/api/products");
-      setProducts(data)
-    }
-    fetchData();
+    dispatch(listProducts());
     return () => {
       //
     }
-  }, [])
+  }, [dispatch])
 
-  return (
+  return ( 
+    loading ? <div>Loading...</div> :
+    error ? <div>{error}</div> : 
     <Products>
-      {
-        products.map(product => 
-          <Li className="product" key={product._id}>
-          <Product>
-            <Link to={'/product/' + product._id}>
-              <Image src={product.image} alt='shirt' className="product-image"/>
-            </Link>
-            <LinkStyle to={'/product/' + product._id}>
-              <ProductName >{product.name}</ProductName>
-            </LinkStyle>
-            <ProductBrand>{product.brand}</ProductBrand>
-            <ProductPrice>${product.price}</ProductPrice>
-            <ProductRating>{product.rating} Stars {product.numReviews}</ProductRating>
-          </Product>
-        </Li> 
-        )
-      }    
-    </Products>
+        {map(products, (product, index) => {
+          return (
+            <Li className="product" key={index}>
+              <Product>
+                <Link to={'/product/' + product._id}>
+                  <Image src={product.image} alt='shirt' className="product-image"/>
+                </Link>
+                <LinkStyle to={'/product/' + product._id}>
+                  <ProductName >{product.name}</ProductName>
+                </LinkStyle>
+                <ProductBrand>{product.brand}</ProductBrand>
+                <ProductPrice>${product.price}</ProductPrice>
+                <ProductRating>{product.rating} Stars {product.numReviews}</ProductRating>
+              </Product>
+            </Li> 
+          )
+        }
+          )
+        }    
+      </Products>
   )
 };
 
