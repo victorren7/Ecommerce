@@ -1,5 +1,15 @@
 import express from 'express';
 import data from './data';
+import dotenv from 'dotenv';
+import config from './config';
+import mongoose from 'mongoose';
+
+dotenv.config();
+
+const mongodbUrl = config.MONBGODB_URL;
+mongoose.connect(mongodbUrl, {
+  useNewUrlParse: true
+}).catch(error => console.log(error.message));
 
 const app = express();
 
