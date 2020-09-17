@@ -1,16 +1,20 @@
 import React, {useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import './App.css';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import SigninScreen from './screens/SigninScreen';
+import Register from './screens/Register';
 
 function App() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-
+  const userSignin = useSelector(state => state.userSignin);
+  const { userInfo } = userSignin;
 
   const openMenu = () => {
     setSidebarOpen(true);
@@ -35,7 +39,13 @@ function App() {
           </div>
           <Grid>
             <Anchor href="cart.html">Cart</Anchor>
-            <Anchor href="signin.html">Sign In</Anchor>
+            {userInfo ?
+              <Link to='/profile'>
+                {userInfo.name}
+              </Link>
+            :           
+              <Link to='/signin'> Sign In</Link>
+             }
           </Grid>
         </Header>
         <div>
@@ -56,6 +66,8 @@ function App() {
         </div>
         <Main >
           <div className="content">
+            <Route path="/signin" component={SigninScreen} />
+            <Route path="/register" component={Register} exact={true} />
             <Route path="/product/:id" component={ProductScreen} />
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/" component={HomeScreen} exact={true} />
