@@ -1,14 +1,14 @@
-import React, { useEffect } from'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { map } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import styled from 'styled-components';
 
-function HomeScreen (props) {
+function HomeScreen(props) {
 
   const productList = useSelector(state => state.productList);
-  const{products, loading, error } = productList;
+  const { products, loading, error } = productList;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,30 +18,33 @@ function HomeScreen (props) {
     }
   }, [dispatch])
 
-  return ( 
+  return (
     loading ? <div>Loading...</div> :
-    error ? <div>{error}</div> : 
-    <Products>
-        {map(products, (product, index) => {
-          return (
-            <Li className="product" key={index}>
-              <Product>
-                <Link to={'/product/' + product._id}>
-                  <Image src={product.image} alt='shirt' className="product-image"/>
-                </Link>
-                <LinkStyle to={'/product/' + product._id}>
-                  <ProductName >{product.name}</ProductName>
-                </LinkStyle>
-                <ProductBrand>{product.brand}</ProductBrand>
-                <ProductPrice>${product.price}</ProductPrice>
-                <ProductRating>{product.rating} Stars {product.numReviews}</ProductRating>
-              </Product>
-            </Li> 
+      error ? <div>{error}</div> :
+        <Products>
+          {/* {console.log('products', productList)}
+          {console.log('list', listProducts)} */}
+
+          {map(products, (product, index) => {
+            return (
+              <Li className="product" key={index}>
+                <Product>
+                  <Link to={'/product/' + product._id}>
+                    <Image src={product.image} alt='shirt' className="product-image" />
+                  </Link>
+                  <LinkStyle to={'/product/' + product._id}>
+                    <ProductName >{product.name}</ProductName>
+                  </LinkStyle>
+                  <ProductBrand>{product.brand}</ProductBrand>
+                  <ProductPrice>${product.price}</ProductPrice>
+                  <ProductRating>{product.rating} Stars {product.numReviews}</ProductRating>
+                </Product>
+              </Li>
+            )
+          }
           )
-        }
-          )
-        }    
-      </Products>
+          }
+        </Products>
   )
 };
 
@@ -80,7 +83,7 @@ const LinkStyle = styled(Link)`
 const ProductName = styled.div`
   font-size: 2rem;
   font-weight: bold;
-`;  
+`;
 
 const ProductBrand = styled.div`
   font-size: 1.2rem;

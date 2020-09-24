@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import './App.css';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
+import Products from './screens/Products';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
@@ -66,6 +67,7 @@ function App() {
         </div>
         <Main >
           <div className="content">
+          <Route path="/products" component={Products} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={Register} exact={true} />
             <Route path="/product/:id" component={ProductScreen} />
